@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') or die();
+defined('TYPO3') || die();
 
 call_user_func(function () {
     $GLOBALS['TCA']['pages']['columns']['tx_themes_icon']['config'] = array(
