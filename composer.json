@@ -42,32 +42,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "php": "^7.2",
-
-    "typo3/cms-backend": "~9.5.1",
-    "typo3/cms-core": "~9.5.1",
-    "typo3/cms-extbase": "~9.5.1",
-    "typo3/cms-extensionmanager": "~9.5.1",
-    "typo3/cms-fluid": "~9.5.1",
-    "typo3/cms-frontend": "~9.5.1",
-    "typo3/cms-install": "~9.5.1",
-    "typo3/cms-fluid-styled-content": "~9.5.1",
-    "typo3/cms-rte-ckeditor": "~9.5.1",
-    "typo3/cms-form": "~9.5.1",
-    "typo3/cms-felogin": "~9.5.1",
-
-    "typo3-themes/themes": "dev-typo3_9.x",
-    "kaystrobach/dyncss": "dev-typo3_9.x",
-    "kaystrobach/dyncss-less": "dev-typo3_9.x",
-
-    "gridelementsteam/gridelements": "~9.2.1",
-    "clickstorm/go_maps_ext": "~3.1.0",
-    "georgringer/news": "~7.1.0",
-    "pixelant/pxa-newsletter-subscription": "~9.0.2",
-    "pixelant/pxa-form-enhancement": "~3.2.5",
-    "pixelant/pxa-cookie-bar": "~2.1.1",
-    "friendsoftypo3/frontend-editing": "~1.5.0",
-    "clickstorm/cs_seo": "~4.1.0",
-    "apache-solr-for-typo3/solr": "~9.0.0"
+    "php": "^8.2",
+    "typo3/cms-core": "^13.4"
   }
 }
