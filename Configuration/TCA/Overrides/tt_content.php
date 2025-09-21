@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') or die();
+defined('TYPO3') || die();
 
 call_user_func(function() {
     if (!isset($GLOBALS['TCA']['tt_content']['palettes']['frames'])) {

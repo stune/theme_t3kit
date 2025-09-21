@@ -1,5 +1,7 @@
 <?php
-defined('TYPO3_MODE') or die();
+defined('TYPO3') || die();
+
+use TYPO3\CMS\Core\Core\Environment;
 
 $boot = function ($_EXTKEY) {
 
@@ -64,7 +66,7 @@ $boot = function ($_EXTKEY) {
         ['source' => 'EXT:solr/Resources/Public/Images/Icons/ContentElement.svg']
     );
 
-    if (TYPO3_MODE === 'BE') {
+    if (Environment::isBackend()) {
         // Add context sensitive help (csh) for the haiku table
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
             'tt_content',
