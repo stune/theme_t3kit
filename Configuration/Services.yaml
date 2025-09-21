@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: false
+    autoconfigure: false
+    public: false
+
+  T3kit\\themeT3kit\\EventListener\\ImageTextLinkPreviewRenderer:
+    tags:
+      - name: event.listener
+        identifier: 'theme-t3kit/image-text-link-preview'
+        event: TYPO3\\CMS\\Backend\\View\\Event\\ModifyPageLayoutContentDrawItemEvent
