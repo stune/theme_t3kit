@@ -104,8 +104,8 @@ class GetSystemInformationSlot
                     $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         return $rootSysTemplates;
     }
 

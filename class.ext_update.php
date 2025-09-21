@@ -147,8 +147,8 @@ class ext_update
                         $queryBuilder->createNamedParameter('menu')
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
         }
         return count($ttContent) > 0;
     }
@@ -173,7 +173,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_pages')
-                ->execute();
+                ->executeStatement();
 
             // Menu of subpages of selected pages
             /** @var QueryBuilder $queryBuilder */
@@ -191,7 +191,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_subpages')
-                ->execute();
+                ->executeStatement();
 
             // Menu of subpages of selected pages including abstracts
             /** @var QueryBuilder $queryBuilder */
@@ -209,7 +209,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_abstract')
-                ->execute();
+                ->executeStatement();
 
             // Menu of subpages of selected pages including sections
             /** @var QueryBuilder $queryBuilder */
@@ -227,7 +227,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_section_pages')
-                ->execute();
+                ->executeStatement();
 
             // Sitemap
             /** @var QueryBuilder $queryBuilder */
@@ -245,7 +245,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_sitemap')
-                ->execute();
+                ->executeStatement();
 
             // Sitemaps of selected pages
             /** @var QueryBuilder $queryBuilder */
@@ -263,7 +263,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_sitemap_pages')
-                ->execute();
+                ->executeStatement();
 
             // Section index (page content marked for section menus)
             /** @var QueryBuilder $queryBuilder */
@@ -281,7 +281,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_section')
-                ->execute();
+                ->executeStatement();
 
             // Recently updated pages
             /** @var QueryBuilder $queryBuilder */
@@ -299,7 +299,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_recently_updated')
-                ->execute();
+                ->executeStatement();
 
             // Related pages (based on keywords)
             /** @var QueryBuilder $queryBuilder */
@@ -317,7 +317,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_related_pages')
-                ->execute();
+                ->executeStatement();
 
             // Pages for selected categories
             /** @var QueryBuilder $queryBuilder */
@@ -335,7 +335,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_categorized_pages')
-                ->execute();
+                ->executeStatement();
 
             // Content elements for selected categories
             /** @var QueryBuilder $queryBuilder */
@@ -353,7 +353,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'menu_categorized_content')
-                ->execute();
+                ->executeStatement();
 
             $result = true;
         }
@@ -389,8 +389,8 @@ class ext_update
                         $queryBuilder->createNamedParameter('twbsButton')
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
         }
 
         return count($ttContent) > 0;
@@ -411,7 +411,7 @@ class ext_update
                     )
                 )
                 ->set('CType', 'button')
-                ->execute();
+                ->executeStatement();
             $result = true;
         }
         return $result;
@@ -430,8 +430,8 @@ class ext_update
             ->select('*')
             ->from('pages')
             ->setMaxResults(1)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         
         foreach ($pages[0] as $column => $value) {
             $this->pagesDefiniton[$column] = true;
@@ -443,8 +443,8 @@ class ext_update
             ->select('*')
             ->from('tt_content')
             ->setMaxResults(1)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         foreach ($pages[0] as $column => $value) {
             $this->ttContentDefinition[$column] = true;
@@ -501,8 +501,8 @@ class ext_update
                         )
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             $uidList = [];
             foreach ($ttContent as $index => $values) {
@@ -530,8 +530,8 @@ class ext_update
                         )
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
         }
 
         return count($ttContent) > 0 && count($sysFileReference) > 0;
@@ -572,8 +572,8 @@ class ext_update
                         )
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             $uidList = [];
             foreach ($ttContent as $index => $values) {
@@ -595,7 +595,7 @@ class ext_update
                 )
                 ->set('assets', $queryBuilder->quoteIdentifier('media'), false)
                 ->set('media', 0)
-                ->execute();
+                ->executeStatement();
 
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file_reference');
@@ -619,7 +619,7 @@ class ext_update
                     )
                 )
                 ->set('fieldname', 'assets')
-                ->execute();
+                ->executeStatement();
             $result = true;
         }
         return $result;
