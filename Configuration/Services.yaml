@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  T3kit\\themeT3kit\\EventListener\\SystemInformationToolbarListener:
+    tags:
+      - name: event.listener
+        identifier: 'theme-t3kit/system-information-toolbar'
+        event: TYPO3\\CMS\\Backend\\Event\\SystemInformationToolbarCollectorEvent
+        method: 'addThemeModeInformation'

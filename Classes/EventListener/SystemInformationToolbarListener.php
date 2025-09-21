@@ -1,5 +1,5 @@
 <?php
-namespace T3kit\themeT3kit\Slot;
+namespace T3kit\themeT3kit\EventListener;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,84 +14,72 @@ namespace T3kit\themeT3kit\Slot;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Backend\Event\SystemInformationToolbarCollectorEvent;
 use TYPO3\CMS\Backend\Toolbar\Enumeration\InformationStatus;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Extbase\Service\TypoScriptService;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Backend\Backend\ToolbarItems\SystemInformationToolbarItem;
 
 /**
  * Render custom system info to toolbar item
  */
-class GetSystemInformationSlot
+class SystemInformationToolbarListener
 {
     /**
-     * Signal slot getSystemInformation
-     *
-     * @param SystemInformationToolbarItem $sysInfoToolbarItem sysInfoToolbarItem
-     *
-     * @return void
+     * Event listener entry point to enrich the system information toolbar.
      */
-    public function getSystemInformation($sysInfoToolbarItem)
+    public function addThemeModeInformation(SystemInformationToolbarCollectorEvent $event): void
     {
-        $this->getThemeMode($sysInfoToolbarItem);
+        $this->addThemeMode($event);
     }
 
     /**
-     * Get theme mode to system information
-     *
-     * @param SystemInformationToolbarItem $sysInfoToolbarItem sysInfoToolbarItem
-     *
-     * @return void
+     * Adds theme mode information to the system information toolbar event.
      */
-    protected function getThemeMode($sysInfoToolbarItem)
+    protected function addThemeMode(SystemInformationToolbarCollectorEvent $event): void
     {
-        if (ExtensionManagementUtility::isLoaded('themes')) {
+        if (!ExtensionManagementUtility::isLoaded('themes')) {
+            return;
+        }
 
-            $rootSysTemplates = $this->getRootSysTemplates();
+        $rootSysTemplates = $this->getRootSysTemplates();
 
-            if (!empty($rootSysTemplates) && is_array($rootSysTemplates)) {
-                foreach ($rootSysTemplates as $index => $rootSysTemplate) {
+        if (empty($rootSysTemplates)) {
+            return;
+        }
 
-                    $themeConfiguration = $this->getThemeConfiguration(
-                        $rootSysTemplate
-                    );
-                    if (!empty($themeConfiguration)
-                        && is_array($themeConfiguration)
-                    ) {
-
-                        $inProductionMode
-                            = $themeConfiguration['isDevelopment'] === '0';
-
-                        $themeMode = $inProductionMode
-                            ? 'Production'
-                            : 'Development';
-
-                        $themeStatus = $inProductionMode
-                            ? InformationStatus::STATUS_OK
-                            : InformationStatus::STATUS_WARNING;
-            
-                        $sysInfoToolbarItem->addSystemInformation(
-                            'Theme mode [' . $rootSysTemplate['pid'] . ']',
-                            $themeMode,
-                            'sysinfo-application-context',
-                            $themeStatus
-                        );
-                    }
-                }
+        foreach ($rootSysTemplates as $rootSysTemplate) {
+            $themeConfiguration = $this->getThemeConfiguration($rootSysTemplate);
+            if (empty($themeConfiguration) || !is_array($themeConfiguration)) {
+                continue;
             }
+
+            $inProductionMode = $themeConfiguration['isDevelopment'] === '0';
+
+            $themeMode = $inProductionMode
+                ? 'Production'
+                : 'Development';
+
+            $themeStatus = $inProductionMode
+                ? InformationStatus::STATUS_OK
+                : InformationStatus::STATUS_WARNING;
+
+            $event->addSystemInformation(
+                'Theme mode [' . $rootSysTemplate['pid'] . ']',
+                $themeMode,
+                'sysinfo-application-context',
+                $themeStatus
+            );
         }
     }
 
     /**
      * Get root templates
-     *
-     * @return array
      */
-    protected function getRootSysTemplates()
+    protected function getRootSysTemplates(): array
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('sys_template');
@@ -106,7 +94,8 @@ class GetSystemInformationSlot
             )
             ->execute()
             ->fetchAll();
-        return $rootSysTemplates;
+
+        return is_array($rootSysTemplates) ? $rootSysTemplates : [];
     }
 
     /**
@@ -114,9 +103,9 @@ class GetSystemInformationSlot
      *
      * @param array $sysTemplate System Template
      *
-     * @return array
+     * @return array|false
      */
-    protected function getThemeConfiguration($sysTemplate)
+    protected function getThemeConfiguration(array $sysTemplate)
     {
         $themeConfiguration = false;
         $templateService = GeneralUtility::makeInstance(
@@ -149,6 +138,6 @@ class GetSystemInformationSlot
                 );
         }
 
-        return  $themeConfiguration;
+        return $themeConfiguration;
     }
 }

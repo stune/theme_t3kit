@@ -26,19 +26,6 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['t3kit_default']
 
 $GLOBALS['TYPO3_CONF_VARS']['BE']['interfaces'] = 'frontend,backend';
 
-// register to signal slot from SystemInformationToolbarItem to include
-// Themes Development Mode constant setting per "siteroot" to system information
-$signalSlotDispatcher = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-    \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
-);
-$signalSlotDispatcher->connect(
-    \TYPO3\CMS\Backend\Backend\ToolbarItems\SystemInformationToolbarItem::class,
-    'getSystemInformation',
-    \T3kit\themeT3kit\Slot\GetSystemInformationSlot::class,
-    'getSystemInformation'
-);
-
-
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
     '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $_EXTKEY . '/Configuration/PageTS/tsconfig.txt">'
 );
