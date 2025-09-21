@@ -8,15 +8,6 @@ if (!TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('frontend_editi
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['core'][] = 'T3kit\\themeT3kit\\ViewHelpers';
 }
 
-$GLOBALS['TYPO3_CONF_VARS']
-    ['SC_OPTIONS']
-    ['cms/layout/class.tx_cms_layout.php']
-    ['tt_content_drawItem']
-    ['imageTextLink'] = \T3kit\themeT3kit\Hooks\ImageTextLinkPreviewRenderer::class;
-
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['imageTextLink']
-    = \T3kit\themeT3kit\Hooks\ImageTextLinkPreviewRenderer::class;
-
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['t3kit'][] = 'T3kit\\themeT3kit\\ViewHelpers';
 
 
